@@ -1,0 +1,14 @@
+# Build / binarios
+target/
+*.class
+
+# Sistema operativo
+.DS_Store
+
+# Material del curso (no es parte del entregable)
+*.pdf
+*.docx
+*.zip
+
+# Datos generados en tiempo de ejecucion
+config.json

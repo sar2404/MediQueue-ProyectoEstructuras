@@ -1,38 +1,37 @@
 package estructuras;
 
-import modelos.Tiquete;
+// nodo generico (filosofia nodo-dato)
+public class Nodo<T> {
 
-public class Nodo{
-
-    private Tiquete  dato;
-    private Nodo siguiente;
+    private T dato;
+    private Nodo<T> siguiente;
 
     public Nodo() {
-        this.siguiente = null;
-        this.dato = null;
-    }
-    public Nodo(Tiquete newDato) {
-        this.dato = newDato;
+
     }
 
-    public Tiquete getDato() {
-        return dato;
-    }
+    public Nodo(T dato) {
 
-    public void setDato(Tiquete dato) {
         this.dato = dato;
     }
 
-    public Nodo getSiguiente() {
+    public T getDato() {
+
+        return dato;
+    }
+
+    public void setDato(T dato) {
+
+        this.dato = dato;
+    }
+
+    public Nodo<T> getSiguiente() {
+
         return siguiente;
     }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(Nodo<T> siguiente) {
+
         this.siguiente = siguiente;
-    }
-    
-    @Override
-    public String toString() {
-        return "Nodo:{" + "dato:" + dato.toString() +"}";
     }
 }

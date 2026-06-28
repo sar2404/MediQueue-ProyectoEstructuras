@@ -1,41 +1,92 @@
 package cr.ac.ufidelitas.leccion04.mediqueue;
 
-import estructuras.Cola;
-import estructuras.PilaPacientes;
-import modelos.Paciente;
-import modelos.Tiquete;
+import estructuras.Nodo;
+import modelos.Consultorio;
+import modelos.Sala;
+import modelos.Usuario;
+import servicios.ServicioConfiguracion;
 
+import java.util.Scanner;
+
+// punto de entrada: configuracion (modulo 1.0), login y menu principal
 public class MediQueue {
 
     public static void main(String[] args) {
 
-        //Creacion de pacientes
-        Paciente paciente1 = new Paciente(1, "Fabian Sandoval", "101110111", 24, "CCSS");
-        Paciente paciente2 = new Paciente(2, "Santiago Rodriguez", "202220222", 25, "INS");
-        Paciente paciente3 = new Paciente(3, "Ignacio Calero", "303330333", 22, "CCSS");
-        Paciente paciente4 = new Paciente(4, "Giovanni Jurguens", "404440444", 26, "Privado");
+        Scanner sc = new Scanner(System.in);
+        ServicioConfiguracion config = new ServicioConfiguracion();
 
-        //Creacion de tiquetes
-        Tiquete t1 = new Tiquete(1001, paciente1, "2026-06-23 08:00", "-1", "REGULAR", "C", "N");
-        Tiquete t2 = new Tiquete(1002, paciente2, "2026-06-23 08:10", "-1", "URGENTE", "E", "P");
-        Tiquete t3 = new Tiquete(1003, paciente3, "2026-06-23 08:20", "-1", "CONTROL", "C", "N");
-        Tiquete t4 = new Tiquete(1004, paciente4, "2026-06-23 08:20", "-1", "CRITICO", "E", "P");
+        if (config.existeConfiguracion()) {
+            config.cargar();
+        } else {
+            config.configurar(sc);
+        }
 
-        //Cola de pacientes
-        Cola colaPacientes = new Cola();
-        colaPacientes.encolar(t1);
-        colaPacientes.encolar(t2);
-        colaPacientes.encolar(t3);
-        colaPacientes.encolar(t4);
-        System.out.println("Cola de Pacientes: " + colaPacientes);
+        if (!login(sc, config)) {
+            System.out.println("demasiados intentos. saliendo.");
+            return;
+        }
 
-        //Pila
-        PilaPacientes historial = new PilaPacientes();
-        historial.push(t1);
-        historial.push(t2);
-        historial.push(t3);
-        historial.push(t4);
-        System.out.println("Historial de Pacientes: ");
-        historial.mostrar();
+
+        menuPrincipal(sc, config);
+    }
+
+    private static boolean login(Scanner sc, ServicioConfiguracion config) {
+
+        System.out.println("=== login mediqueue ===");
+        for (int intentos = 0; intentos < 3; intentos++) {
+            System.out.print("usuario: ");
+            String usuario = sc.nextLine().trim();
+            System.out.print("contrasena: ");
+            String password = sc.nextLine().trim();
+            Usuario u = config.autenticar(usuario, password);
+            if (u != null) {
+                System.out.println("bienvenido,  " + u.getUsuario() + "\n");
+                return true;
+            }
+            System.out.println("credenciales invalidas.");
+        }
+        return false;
+    }
+
+    private static void menuPrincipal(Scanner sc, ServicioConfiguracion config) {
+
+        int opcion = -1;
+        while (opcion != 0) {
+            System.out.println("===== mediqueue - " + config.getSede().getNombre() + " =====");
+            System.out.println("1. ver configuracion de la sede");
+            System.out.println("2. reconfigurar sede");
+            System.out.println("0. salir");
+            System.out.print("opcion: ");
+            try {
+                opcion = Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                opcion = -1;
+            }
+            switch (opcion) {
+                case 1 -> mostrarConfiguracion(config);
+                case 2 -> config.configurar(sc);
+                case 0 -> System.out.println("hasta luego.");
+                default -> System.out.println("opcion  invalida.");
+            }
+        }
+    }
+
+    private static void mostrarConfiguracion(ServicioConfiguracion config) {
+
+        System.out.println("sede: " + config.getSede().getNombre());
+        System.out.println("-- salas --");
+        Nodo<Sala> ns = config.getSede().getSalas().getCabeza();
+        while (ns != null) {
+            System.out.println("  " + ns.getDato());
+            ns = ns.getSiguiente();
+        }
+        System.out.println("-- consultorios --");
+        Nodo<Consultorio> nc = config.getSede().getConsultorios().getCabeza();
+        while (nc != null) {
+            System.out.println("  " + nc.getDato());
+            nc = nc.getSiguiente();
+        }
+        System.out.println();
     }
 }

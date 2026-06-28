@@ -1,0 +1,59 @@
+# MediQueue - Avance (Santiago)
+
+## 1. Grupo
+Grupo G5 - Estructuras de Datos (SC-304).
+
+## 2. Integrantes en esta entrega
+- Santiago Rodriguez
+
+## 3. Requerimientos implementados en esta entrega
+
+### Fase 0 - Estructuras genericas (motor Nodo-Dato)
+Refactor de las estructuras a genericas, hechas desde cero (sin java.util de colecciones):
+- estructuras/Nodo<T>      : nodo generico.
+- estructuras/Lista<T>     : lista enlazada simple (base de las demas estructuras y del JSON).
+- estructuras/Cola<T>      : cola FIFO generica.
+- estructuras/Pila<T>      : pila LIFO generica.
+
+### Modulo 1.0 - Configuracion + Login + Persistencia
+- modelos/Sede, modelos/Sala, modelos/Consultorio, modelos/Usuario.
+- Asistente de primera ejecucion: pide nombre de sede y cantidades de salas
+  medicas, salas de emergencia y consultorios (cantidades dinamicas, no quemadas).
+- Garantiza una unica sala PREFERENCIAL, un unico consultorio PREFERENCIAL y una
+  unica sala CRITICA; el resto NORMAL/EMERGENCIA.
+- Persistencia en config.json escrita y leida a mano, SIN librerias (no Gson):
+  cada modelo arma su linea con aTextoJson() y se reconstruye con desdeTexto();
+  persistencia/Json.valorDe() lee los valores con indexOf/substring (sin split ni arreglos).
+  El servicio escribe con StringBuilder y lee linea por linea con BufferedReader.
+- Si config.json existe, se carga al iniciar; si se borra, se vuelve a pedir.
+- Usuarios y contrasenas almacenados en config.json (no quemados en la logica).
+  Usuarios sembrados: santiago / 123  y  admin / 123.
+- Login bloqueante (3 intentos) que valida contra los usuarios del archivo.
+- Menu principal: ver configuracion, reconfigurar sede, salir.
+
+## 4. Requerimientos pendientes (proximas fases)
+- Modulo 1.1 Registro de pacientes: Cola de Prioridades + tiquetes.json.
+- Modulo 1.2 Atencion: Consulta, iniciar/finalizar/cancelar/reingreso, Pila de
+  historial, atendidos.json e historial.json.
+- Modulo 1.3 Salas/Consultorios: Lista de Colas, asignacion por fila mas corta,
+  medico/enfermera/especialidad, salas.json.
+- Modulo 1.4 Historial y busquedas: Arbol Binario de Busqueda (ABB).
+- Modulo 1.5 Sedes: Grafo ponderado dirigido + Dijkstra, grafo.json.
+- Modulo Web (opcional): consumo de OpenFDA.
+
+## 5. Configuracion / credenciales para correr
+- Java 17+ (probado con OpenJDK 25). Proyecto Maven.
+- Compilar:  mvn compile        (o javac sobre src/main/java)
+- Ejecutar clase principal: cr.ac.ufidelitas.leccion04.mediqueue.MediQueue
+- En la primera ejecucion se crea config.json en el directorio de trabajo.
+- Credenciales por defecto: santiago / 123  y  admin / 123.
+
+## 6. Documentacion breve de clases
+- Nodo/Lista/Cola/Pila: estructuras dinamicas genericas Nodo-Dato.
+- Json: helper de lectura (valorDe) con indexOf/substring para el JSON manual.
+- Sede/Sala/Consultorio/Usuario: modelo del dominio del Modulo 1.0.
+- ServicioConfiguracion: asistente, guardar/cargar config.json y autenticacion.
+- MediQueue: punto de entrada (configuracion, login y menu).
+
+## 7. URL del video
+Pendiente.
