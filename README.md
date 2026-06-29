@@ -25,5 +25,6 @@ Los usuarios se guardan en `config.json`, no quedan quemados en el codigo.
 - Modulo 1.0 (Configuracion): sede, salas, consultorios y usuarios en `config.json`.
 - Login y menu principal.
 - Estructuras genericas propias: Nodo, Lista, Cola, Pila.
+- Modulo 1.2 (Modelos): Se crearon los modelos necesarios para poder crear ServicioAtencion
 
 Pendiente: Modulos 1.1 a 1.5 (registro, atencion, salas/consultorios, arboles, grafos).
