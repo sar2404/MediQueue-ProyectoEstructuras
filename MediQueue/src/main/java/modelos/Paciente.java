@@ -4,7 +4,9 @@ package modelos;
  *
  * @author XPC
  */
-public class Paciente {
+
+//Como lo hemos visto en clase, el profe realizó un arbol generico, por lo tanto cambié la declaración de la clase: 
+public class Paciente implements Comparable<Paciente> {
 
     private int id;
     private String nombre;
@@ -66,6 +68,13 @@ public class Paciente {
     @Override
     public String toString() {
         return "Paciente{" + "id=" + id + ", nombre='" + nombre + '\'' + ", identificacion='" + identificacion + '\'' + ", edad=" + edad + ", tipoSeguro='" + tipoSeguro + '\'' + '}';
+    }
+
+    
+    //Agregué el compare To:
+    @Override
+    public int compareTo(Paciente otro) {
+        return this.identificacion.compareTo(otro.identificacion);
     }
 
 }

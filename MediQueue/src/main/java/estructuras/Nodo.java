@@ -34,4 +34,11 @@ public class Nodo<T> {
 
         this.siguiente = siguiente;
     }
+    
+    //Agregué el ToString() para que cualquier estrucutra pueda imprimir mejor. 
+
+    @Override
+    public String toString() {
+        return dato.toString();
+    }
 }

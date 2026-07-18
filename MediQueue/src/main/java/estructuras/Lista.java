@@ -39,6 +39,50 @@ public class Lista<T> {
         return actual.getDato();
     }
 
+    //Agregué un método nuevo para recorres listas:
+    public T buscar(T dato) {
+        Nodo<T> actual = cabeza;
+
+        while (actual != null) {
+            if (actual.getDato().equals(dato)) {
+                return actual.getDato();
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return null;
+    }
+
+    //Agreué un método nuevo para poder eliminar pacientes, usuarios o salas.
+    public boolean remove(T dato) {
+
+        if (cabeza == null) {
+            return false;
+        }
+
+        if (cabeza.getDato().equals(dato)) {
+            cabeza = cabeza.getSiguiente();
+            tamano--;
+            return true;
+        }
+
+        Nodo<T> actual = cabeza;
+
+        while (actual.getSiguiente() != null
+                && !actual.getSiguiente().getDato().equals(dato)) {
+
+            actual = actual.getSiguiente();
+        }
+
+        if (actual.getSiguiente() != null) {
+            actual.setSiguiente(actual.getSiguiente().getSiguiente());
+            tamano--;
+            return true;
+        }
+
+        return false;
+    }
+
     public int getTamano() {
 
         return tamano;
@@ -53,4 +97,28 @@ public class Lista<T> {
 
         return cabeza;
     }
+    
+    //Agregué un métodfo ToString:
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        Nodo<T> actual = cabeza;
+
+        while (actual != null) {
+
+            sb.append(actual.getDato());
+
+            if (actual.getSiguiente() != null) {
+                sb.append("\n");
+            }
+
+            actual = actual.getSiguiente();
+        }
+
+        return sb.toString();
+    }
+
 }

@@ -112,7 +112,6 @@ public class ServicioConfiguracion {
         }
         sb.append("],\n");
 
-
         sb.append("\"usuarios\": [\n");
         Nodo<Usuario> nu = sede.getUsuarios().getCabeza();
         while (nu != null) {
@@ -199,4 +198,17 @@ public class ServicioConfiguracion {
             }
         }
     }
+
+    //Agreué el método Mostrar usuarios. 
+    
+    public void mostrarUsuarios() {
+
+        Nodo<Usuario> actual = sede.getUsuarios().getCabeza();
+        while (actual != null) {
+            System.out.println(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+
+    }
+
 }
