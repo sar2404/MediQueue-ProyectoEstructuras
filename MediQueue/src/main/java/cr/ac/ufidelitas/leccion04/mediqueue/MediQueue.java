@@ -5,6 +5,9 @@ import modelos.Consultorio;
 import modelos.Sala;
 import modelos.Usuario;
 import servicios.ServicioConfiguracion;
+import estructuras.Lista;
+import modelos.Paciente;
+import servicios.ServicioBusquedaPacientes;
 
 import java.util.Scanner;
 
@@ -27,8 +30,63 @@ public class MediQueue {
             return;
         }
 
-
         menuPrincipal(sc, config);
+
+        // Prueba del Arbol ABB para almacenar pacientes por identificacion
+        ServicioBusquedaPacientes servicioPacientes = new ServicioBusquedaPacientes();
+
+        Paciente p1 = new Paciente(1, "Fabian", "30555001", 25, "Efectivo");
+        Paciente p2 = new Paciente(2, "Santiago", "10222002", 19, "Seguro");
+        Paciente p3 = new Paciente(3, "Jurgens", "50111003", 22, "Seguro");
+
+        servicioPacientes.agregarPaciente(p1);
+        servicioPacientes.agregarPaciente(p2);
+        servicioPacientes.agregarPaciente(p3);
+
+        System.out.println("Pacientes almacenados en el Arbol ABB:");
+        servicioPacientes.mostrarPacientes();
+
+// Prueba de busqueda utilizando el Arbol ABB - Fabián
+        Paciente pacienteBuscar = new Paciente();
+        pacienteBuscar.setIdentificacion("30555001");
+
+        Paciente resultado = servicioPacientes.buscarPaciente(pacienteBuscar);
+
+        System.out.println("Resultado de busqueda:");
+        System.out.println(resultado);
+
+// Prueba del metodo buscar agregado a Lista enlazada - Fabián
+        Lista<Paciente> listaPacientes = new Lista<>();
+
+        listaPacientes.agregar(p1);
+        listaPacientes.agregar(p2);
+        listaPacientes.agregar(p3);
+
+        Paciente encontrado = listaPacientes.buscar(p2);
+
+        System.out.println("Paciente encontrado en Lista:");
+        System.out.println(encontrado);
+
+// Prueba del metodo remove agregado a Lista enlazada - Fabián
+        boolean eliminado = listaPacientes.remove(p2);
+
+        System.out.println("Paciente eliminado:");
+        System.out.println(eliminado);
+
+// Prueba del metodo toString agregado a Lista - Fabián
+        System.out.println("Contenido de la Lista:");
+        System.out.println(listaPacientes);
+
+// Prueba del metodo contar agregado a Lista - Fabián
+        System.out.println("Cantidad de pacientes registrados:");
+        System.out.println(listaPacientes.contar());
+
+// Prueba del metodo toString agregado al Nodo - Fabián
+        Nodo<Paciente> nodo = new Nodo<>(p1);
+
+        System.out.println("Informacion del Nodo:");
+        System.out.println(nodo);
+
     }
 
     private static boolean login(Scanner sc, ServicioConfiguracion config) {
@@ -64,10 +122,14 @@ public class MediQueue {
                 opcion = -1;
             }
             switch (opcion) {
-                case 1 -> mostrarConfiguracion(config);
-                case 2 -> config.configurar(sc);
-                case 0 -> System.out.println("hasta luego.");
-                default -> System.out.println("opcion  invalida.");
+                case 1 ->
+                    mostrarConfiguracion(config);
+                case 2 ->
+                    config.configurar(sc);
+                case 0 ->
+                    System.out.println("hasta luego.");
+                default ->
+                    System.out.println("opcion  invalida.");
             }
         }
     }

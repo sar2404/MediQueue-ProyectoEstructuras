@@ -97,9 +97,8 @@ public class Lista<T> {
 
         return cabeza;
     }
-    
-    //Agregué un métodfo ToString:
 
+    //Agregué un métodfo ToString:
     @Override
     public String toString() {
 
@@ -121,4 +120,7 @@ public class Lista<T> {
         return sb.toString();
     }
 
+    public int contar() {
+        return tamano;
+    }
 }
