@@ -1,0 +1,8 @@
+{
+"historial": [
+{ "idConsulta": 1, "identificacionPaciente": "502340118", "resultado": "FINALIZADA", "resumen": "medico: Dr. Mario Esquivel | lugar: S-3 | diag: Fractura de muneca izquierda", "fecha": "2026-07-24 09:25:00" },
+{ "idConsulta": 2, "identificacionPaciente": "206540987", "resultado": "FINALIZADA", "resumen": "medico: Dra. Laura Chinchilla | lugar: C-1 | diag: Hipertension arterial controlada", "fecha": "2026-07-24 10:05:00" },
+{ "idConsulta": 3, "identificacionPaciente": "702310456", "resultado": "CANCELADA", "resumen": "paciente se retiro | lugar: C-2 | medico: Dr. Andres Vega", "fecha": "2026-07-25 08:20:00" },
+{ "idConsulta": 5, "identificacionPaciente": "502340118", "resultado": "REINGRESO", "resumen": "reingreso | medico: Dra. Laura Chinchilla | lugar: S-1", "fecha": "2026-07-26 10:20:00" }
+]
+}

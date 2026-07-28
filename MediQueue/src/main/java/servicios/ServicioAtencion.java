@@ -6,8 +6,6 @@ import estructuras.Pila;
 import modelos.Consulta;
 import modelos.EntradaHistorial;
 import modelos.Tiquete;
-import persistencia.Json;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -72,7 +70,7 @@ public class ServicioAtencion {
      */
     public Consulta iniciarAtencion(Tiquete tiquete, Scanner sc) {
 
-        System.out.println("\n=== iniciar atencion ===");
+        System.out.println("\n*** iniciar atencion ***");
         System.out.println("atendiendo: " + tiquete);
 
         System.out.print("medico asignado: ");
@@ -115,7 +113,7 @@ public class ServicioAtencion {
             return;
         }
 
-        System.out.println("\n=== finalizar atencion — consulta #" + idConsulta + " ===");
+        System.out.println("\n*** finalizar atencion - consulta #" + idConsulta + " ***");
 
         System.out.print("diagnostico: ");
         c.setDiagnostico(sc.nextLine().trim());
@@ -210,7 +208,7 @@ public class ServicioAtencion {
             return null;
         }
 
-        System.out.println("\n=== reingreso de paciente ===");
+        System.out.println("\n*** reingreso de paciente ***");
         System.out.println("paciente: " + tiquete.getPaciente().getNombre());
 
         System.out.print("medico asignado: ");
@@ -255,8 +253,8 @@ public class ServicioAtencion {
             return;
         }
 
-        System.out.println("\n=== historial clinico (ultimos " + n + ") | paciente: "
-                + identificacion + " ===");
+        System.out.println("\n*** historial clinico (ultimos " + n + ") | paciente: "
+                + identificacion + " ***");
 
         // desapilar hasta n en pila temporal, luego restaurar
         Pila<EntradaHistorial> temp = new Pila<>();
@@ -307,7 +305,7 @@ public class ServicioAtencion {
 
         try {
             PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo));
-            pw.println("=== historial clinico completo ===");
+            pw.println("*** historial clinico completo ***");
             pw.println("paciente identificacion: " + identificacion);
             pw.println("generado: " + LocalDateTime.now().format(FMT));
             pw.println("---");
@@ -343,7 +341,7 @@ public class ServicioAtencion {
      * Muestra todas las consultas registradas (activas y cerradas).
      */
     public void mostrarTodasConsultas() {
-        System.out.println("\n=== consultas registradas ===");
+        System.out.println("\n*** consultas registradas ***");
         Nodo<Consulta> actual = consultas.getCabeza();
         if (actual == null) {
             System.out.println("  no hay consultas registradas.");
@@ -388,13 +386,17 @@ public class ServicioAtencion {
             Pila<EntradaHistorial> aux = new Pila<>();
             Lista<EntradaHistorial> items = new Lista<>();
 
+            // al pasar todo a aux, la cima de aux queda siendo la entrada mas antigua
             while (!pila.esVacia()) {
-                EntradaHistorial e = pila.desapilar();
-                items.agregar(e);
-                aux.apilar(e);
+                aux.apilar(pila.desapilar());
             }
-            // restaurar
-            while (!aux.esVacia()) pila.apilar(aux.desapilar());
+            // se escribe del mas antiguo al mas reciente, que es el mismo orden en
+            // que cargar() vuelve a apilar; asi la cima sigue siendo lo mas reciente
+            while (!aux.esVacia()) {
+                EntradaHistorial e = aux.desapilar();
+                items.agregar(e);
+                pila.apilar(e);   // restaura la pila original
+            }
 
             Nodo<EntradaHistorial> ae = items.getCabeza();
             while (ae != null) {
@@ -463,6 +465,33 @@ public class ServicioAtencion {
         return null;
     }
 
+    /** Lista de consultas registradas. Usado por el Modulo 1.4 (busquedas). */
+    public Lista<Consulta> getConsultas() {
+        return consultas;
+    }
+
+    /**
+     * Devuelve las entradas del historial de un paciente, mas reciente primero,
+     * sin destruir la pila original. Usado por el Modulo 1.4 (busqueda de historial).
+     */
+    public Lista<EntradaHistorial> obtenerHistorial(String identificacion) {
+        Lista<EntradaHistorial> resultado = new Lista<>();
+        Pila<EntradaHistorial> pila = buscarPilaHistorial(identificacion);
+        if (pila == null) {
+            return resultado;
+        }
+        Pila<EntradaHistorial> aux = new Pila<>();
+        while (!pila.esVacia()) {
+            EntradaHistorial e = pila.desapilar();
+            resultado.agregar(e);     // mas reciente primero
+            aux.apilar(e);
+        }
+        while (!aux.esVacia()) {       // restaurar la pila original
+            pila.apilar(aux.desapilar());
+        }
+        return resultado;
+    }
+
     /** Registra una entrada en la pila del paciente y persiste el historial. */
     private void registrarEnHistorial(EntradaHistorial entrada) {
         apilarEnHistorial(entrada);
@@ -524,17 +553,4 @@ public class ServicioAtencion {
         }
     }
 
-    /**
-     * Nodo que asocia la identificacion de un paciente con su pila de historial.
-     * Permite implementar la lista de pilas sin usar colecciones de Java.
-     */
-    public static class NodoPilaHistorial {
-        public String identificacion;
-        public Pila<EntradaHistorial> pila;
-
-        public NodoPilaHistorial(String identificacion, Pila<EntradaHistorial> pila) {
-            this.identificacion = identificacion;
-            this.pila = pila;
-        }
-    }
 }

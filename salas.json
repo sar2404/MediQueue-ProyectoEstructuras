@@ -1,0 +1,14 @@
+{
+"unidades": [
+{ "codigo": "S-1", "categoria": "SALA", "numero": 1, "tipo": "PREFERENCIAL", "capacidadFila": 10, "medico": "Dra. Laura Chinchilla", "enfermera": "Marta Ruiz", "especialidad": "Medicina preferencial" },
+{ "codigo": "S-2", "categoria": "SALA", "numero": 2, "tipo": "NORMAL", "capacidadFila": 10, "medico": "Dr. Andres Vega", "enfermera": "Sofia Mena", "especialidad": "Medicina general" },
+{ "codigo": "S-3", "categoria": "SALA", "numero": 3, "tipo": "CRITICA", "capacidadFila": 10, "medico": "Dr. Mario Esquivel", "enfermera": "Karla Brenes", "especialidad": "Emergencias" },
+{ "codigo": "C-1", "categoria": "CONSULTORIO", "numero": 1, "tipo": "PREFERENCIAL", "capacidadFila": 10, "medico": "Dra. Laura Chinchilla", "enfermera": "Marta Ruiz", "especialidad": "Valoracion" },
+{ "codigo": "C-2", "categoria": "CONSULTORIO", "numero": 2, "tipo": "NORMAL", "capacidadFila": 10, "medico": "Dr. Andres Vega", "enfermera": "Sofia Mena", "especialidad": "Valoracion" }
+],
+"filas": [
+{ "codigo": "S-3", "tiqueteId": 6 },
+{ "codigo": "C-1", "tiqueteId": 7 },
+{ "codigo": "C-2", "tiqueteId": 5 }
+]
+}

@@ -1,5 +1,7 @@
 package modelos;
 
+import persistencia.Json;
+
 public class Tiquete {
 
     private int id;
@@ -81,7 +83,49 @@ public class Tiquete {
 
     @Override
     public String toString() {
-        return "Tiquete{" + "id=" + id + ", paciente=" + paciente.getNombre() + ", prioridad='" + prioridad + '\'' + ", tipoAtencion='" + tipoAtencion + '\'' + '}';
+        return "Tiquete #" + id + " | " + paciente.getNombre()
+                + " | prioridad: " + prioridad + " | " + tipoAtencion
+                + " | estado: " + atencion;
     }
 
+    // Se guarda en una sola linea para mantener el estilo de persistencia manual del proyecto.
+    public String aTextoJson() {
+
+        return "{ \"id\": " + id
+                + ", \"pacienteId\": " + paciente.getId()
+                + ", \"nombre\": \"" + escapar(paciente.getNombre()) + "\""
+                + ", \"identificacion\": \"" + escapar(paciente.getIdentificacion()) + "\""
+                + ", \"edad\": " + paciente.getEdad()
+                + ", \"tipoSeguro\": \"" + escapar(paciente.getTipoSeguro()) + "\""
+                + ", \"fechaIngreso\": \"" + escapar(fechaIngreso) + "\""
+                + ", \"fechaAtencion\": \"" + escapar(fechaAtencion) + "\""
+                + ", \"prioridad\": \"" + prioridad + "\""
+                + ", \"tipoAtencion\": \"" + tipoAtencion + "\""
+                + ", \"atencion\": \"" + atencion + "\" }";
+    }
+
+    public static Tiquete desdeTexto(String linea) {
+
+        Paciente paciente = new Paciente(
+                Integer.parseInt(Json.valorDe(linea, "pacienteId")),
+                Json.valorDe(linea, "nombre"),
+                Json.valorDe(linea, "identificacion"),
+                Integer.parseInt(Json.valorDe(linea, "edad")),
+                Json.valorDe(linea, "tipoSeguro")
+        );
+        
+        return new Tiquete(
+                Integer.parseInt(Json.valorDe(linea, "id")),
+                paciente,
+                Json.valorDe(linea, "fechaIngreso"),
+                Json.valorDe(linea, "fechaAtencion"),
+                Json.valorDe(linea, "prioridad"),
+                Json.valorDe(linea, "tipoAtencion"),
+                Json.valorDe(linea, "atencion")
+        );
+    }
+
+    private String escapar(String texto) {
+        return texto == null ? "" : texto.replace("\"", "'");
+    }
 }

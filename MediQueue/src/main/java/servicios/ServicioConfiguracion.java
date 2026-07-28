@@ -33,13 +33,16 @@ public class ServicioConfiguracion {
     // asistente de primera ejecucion
     public void configurar(Scanner sc) {
 
-        System.out.println("=== configuracion de  la sede (modulo 1.0) ===");
+        System.out.println("*** configuracion de la sede (modulo 1.0) ***");
+
         System.out.print("nombre de la sede: ");
         String nombre = sc.nextLine().trim();
+
         sede = new Sede(nombre);
 
         int salasMedicas = leerEntero(sc, "cantidad de salas medicas (min 2): ", 2);
         int emergencias = leerEntero(sc, "cantidad de salas de emergencia (min 1): ", 1);
+
         int consultorios = leerEntero(sc, "cantidad de consultorios (min 2): ", 2);
 
         generarSalas(salasMedicas, emergencias);
@@ -50,7 +53,7 @@ public class ServicioConfiguracion {
         System.out.println("configuracion guardada en " + ARCHIVO + "\n");
     }
 
-    // una sala preferencial entre las medicas; una critica entre las de emergencia
+    // una sala preferencial entre las medicas yuna critica entre las de emergencia
     private void generarSalas(int salasMedicas, int emergencias) {
 
         int numero = 1;
@@ -66,10 +69,11 @@ public class ServicioConfiguracion {
         }
     }
 
-    // un consultorio preferencial; el resto normales
+    // un consultorio preferencial, resto normales
     private void generarConsultorios(int cantidad) {
 
         for (int i = 0; i < cantidad; i++) {
+
             String tipo = (i == 0) ? "PREFERENCIAL" : "NORMAL";
             sede.getConsultorios().agregar(new Consultorio(i + 1, tipo, "Valoracion"));
         }
@@ -91,12 +95,14 @@ public class ServicioConfiguracion {
         sb.append("\"salas\": [\n");
         Nodo<Sala> ns = sede.getSalas().getCabeza();
         while (ns != null) {
+
             sb.append(ns.getDato().aTextoJson());
             if (ns.getSiguiente() != null) {
                 sb.append(",");
             }
             sb.append("\n");
             ns = ns.getSiguiente();
+            
         }
         sb.append("],\n");
 

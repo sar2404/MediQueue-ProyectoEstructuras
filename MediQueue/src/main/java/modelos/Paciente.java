@@ -1,11 +1,13 @@
 package modelos;
 
+import persistencia.Json;
+
 /**
  *
  * @author XPC
  */
 
-//Como lo hemos visto en clase, el profe realizó un arbol generico, por lo tanto cambié la declaración de la clase: 
+//Como lo hemos visto en clase, el profe realizó un arbol generico, por lo tanto cambié la declaración de la clase:
 public class Paciente implements Comparable<Paciente> {
 
     private int id;
@@ -75,6 +77,29 @@ public class Paciente implements Comparable<Paciente> {
     @Override
     public int compareTo(Paciente otro) {
         return this.identificacion.compareTo(otro.identificacion);
+    }
+
+    // Serializacion manual (Modulo 1.1): la clase sabe escribirse y leerse como linea JSON.
+    public String aTextoJson() {
+        return "{ \"id\": " + id
+                + ", \"nombre\": \"" + escapar(nombre) + "\""
+                + ", \"identificacion\": \"" + escapar(identificacion) + "\""
+                + ", \"edad\": " + edad
+                + ", \"tipoSeguro\": \"" + escapar(tipoSeguro) + "\" }";
+    }
+
+    public static Paciente desdeTexto(String linea) {
+        return new Paciente(
+                Integer.parseInt(Json.valorDe(linea, "id")),
+                Json.valorDe(linea, "nombre"),
+                Json.valorDe(linea, "identificacion"),
+                Integer.parseInt(Json.valorDe(linea, "edad")),
+                Json.valorDe(linea, "tipoSeguro")
+        );
+    }
+
+    private String escapar(String texto) {
+        return texto == null ? "" : texto.replace("\"", "'");
     }
 
 }

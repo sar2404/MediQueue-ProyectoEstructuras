@@ -1,0 +1,9 @@
+{
+"consultas": [
+{ "id": 1, "idTiquete": 1, "medico": "Dr. Mario Esquivel", "diagnostico": "Fractura de muneca izquierda", "medicamentos": "Ibuprofeno 400mg cada 8 horas", "observaciones": "Control en 15 dias", "procedimientos": "Radiografia y colocacion de ferula", "lugarAtencion": "S-3", "costo": 45000.0, "estado": "FINALIZADA", "fechaInicio": "2026-07-24 08:40:00", "fechaFin": "2026-07-24 09:25:00" },
+{ "id": 2, "idTiquete": 2, "medico": "Dra. Laura Chinchilla", "diagnostico": "Hipertension arterial controlada", "medicamentos": "Enalapril 10mg", "observaciones": "Dieta baja en sodio", "procedimientos": "Toma de presion y electrocardiograma", "lugarAtencion": "C-1", "costo": 25000.0, "estado": "FINALIZADA", "fechaInicio": "2026-07-24 09:30:00", "fechaFin": "2026-07-24 10:05:00" },
+{ "id": 3, "idTiquete": 3, "medico": "Dr. Andres Vega", "diagnostico": "", "medicamentos": "", "observaciones": "", "procedimientos": "", "lugarAtencion": "C-2", "costo": 0.0, "estado": "CANCELADA", "fechaInicio": "2026-07-25 08:10:00", "fechaFin": "2026-07-25 08:20:00" },
+{ "id": 4, "idTiquete": 4, "medico": "Dr. Mario Esquivel", "diagnostico": "", "medicamentos": "", "observaciones": "", "procedimientos": "", "lugarAtencion": "S-3", "costo": 0.0, "estado": "EN_ATENCION", "fechaInicio": "2026-07-25 10:35:00", "fechaFin": "-1" },
+{ "id": 5, "idTiquete": 9, "medico": "Dra. Laura Chinchilla", "diagnostico": "", "medicamentos": "", "observaciones": "", "procedimientos": "", "lugarAtencion": "S-1", "costo": 0.0, "estado": "REINGRESO", "fechaInicio": "2026-07-26 10:20:00", "fechaFin": "-1" }
+]
+}

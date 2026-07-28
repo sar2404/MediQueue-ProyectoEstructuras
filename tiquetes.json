@@ -1,0 +1,15 @@
+{
+"tiquetes": [
+{ "id": 1, "pacienteId": 1, "nombre": "Ana Solano Vargas", "identificacion": "502340118", "edad": 34, "tipoSeguro": "INS", "fechaIngreso": "2026-07-24 08:15:00", "fechaAtencion": "2026-07-24 08:40:00", "prioridad": "ALTA", "tipoAtencion": "EMERGENCIA", "atencion": "ATENDIDO" },
+{ "id": 2, "pacienteId": 2, "nombre": "Elena Vargas Mora", "identificacion": "206540987", "edad": 71, "tipoSeguro": "CCSS", "fechaIngreso": "2026-07-24 09:05:00", "fechaAtencion": "2026-07-24 09:30:00", "prioridad": "MEDIA", "tipoAtencion": "PREFERENCIAL", "atencion": "ATENDIDO" },
+{ "id": 3, "pacienteId": 3, "nombre": "Carla Jimenez Rojas", "identificacion": "702310456", "edad": 28, "tipoSeguro": "PRIVADO", "fechaIngreso": "2026-07-25 07:50:00", "fechaAtencion": "2026-07-25 08:10:00", "prioridad": "BAJA", "tipoAtencion": "GENERAL", "atencion": "CANCELADO" },
+{ "id": 4, "pacienteId": 4, "nombre": "Bruno Castro Mora", "identificacion": "108760345", "edad": 45, "tipoSeguro": "INS", "fechaIngreso": "2026-07-25 10:20:00", "fechaAtencion": "2026-07-25 10:35:00", "prioridad": "CRITICA", "tipoAtencion": "EMERGENCIA", "atencion": "EN_ATENCION" },
+{ "id": 5, "pacienteId": 5, "nombre": "Diego Ramirez Cruz", "identificacion": "305670123", "edad": 19, "tipoSeguro": "CCSS", "fechaIngreso": "2026-07-25 11:00:00", "fechaAtencion": "-1", "prioridad": "MEDIA", "tipoAtencion": "GENERAL", "atencion": "EN FILAC-2" },
+{ "id": 6, "pacienteId": 6, "nombre": "Hector Alfaro Mena", "identificacion": "603320145", "edad": 60, "tipoSeguro": "CCSS", "fechaIngreso": "2026-07-26 08:10:00", "fechaAtencion": "-1", "prioridad": "ALTA", "tipoAtencion": "EMERGENCIA", "atencion": "EN FILAS-3" },
+{ "id": 7, "pacienteId": 7, "nombre": "Fabian Sandoval Leon", "identificacion": "901230456", "edad": 23, "tipoSeguro": "PRIVADO", "fechaIngreso": "2026-07-26 08:45:00", "fechaAtencion": "-1", "prioridad": "BAJA", "tipoAtencion": "PREFERENCIAL", "atencion": "EN FILAC-1" },
+{ "id": 8, "pacienteId": 8, "nombre": "Gabriela Nunez Soto", "identificacion": "404450789", "edad": 52, "tipoSeguro": "INS", "fechaIngreso": "2026-07-26 09:30:00", "fechaAtencion": "-1", "prioridad": "MEDIA", "tipoAtencion": "GENERAL", "atencion": "EN ESPERA" },
+{ "id": 9, "pacienteId": 1, "nombre": "Ana Solano Vargas", "identificacion": "502340118", "edad": 34, "tipoSeguro": "INS", "fechaIngreso": "2026-07-26 10:05:00", "fechaAtencion": "2026-07-26 10:20:00", "prioridad": "ALTA", "tipoAtencion": "REINGRESO", "atencion": "EN_ATENCION" },
+{ "id": 10, "pacienteId": 3, "nombre": "Carla Jimenez Rojas", "identificacion": "702310456", "edad": 28, "tipoSeguro": "PRIVADO", "fechaIngreso": "2026-07-26 10:40:00", "fechaAtencion": "-1", "prioridad": "CRITICA", "tipoAtencion": "EMERGENCIA", "atencion": "EN ESPERA" },
+{ "id": 11, "pacienteId": 2, "nombre": "Elena Vargas Mora", "identificacion": "206540987", "edad": 71, "tipoSeguro": "CCSS", "fechaIngreso": "2026-07-26 11:15:00", "fechaAtencion": "-1", "prioridad": "BAJA", "tipoAtencion": "GENERAL", "atencion": "EN ESPERA" }
+]
+}
