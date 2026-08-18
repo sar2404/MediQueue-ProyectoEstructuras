@@ -1,0 +1,12 @@
+{
+"sedes": [
+{ "id": 1, "nombre": "Hospital Central", "tipo": "HOSPITAL" },
+{ "id": 2, "nombre": "Clinica Norte", "tipo": "CLINICA" },
+{ "id": 3, "nombre": "Ebais Sur", "tipo": "EBAIS" }
+],
+"aristas": [
+{ "origen": 1, "destino": 2, "distancia": 10, "tiempo": 15, "costo": 8000 },
+{ "origen": 1, "destino": 3, "distancia": 20, "tiempo": 25, "costo": 12000 },
+{ "origen": 2, "destino": 3, "distancia": 5, "tiempo": 10, "costo": 4000 }
+]
+}
