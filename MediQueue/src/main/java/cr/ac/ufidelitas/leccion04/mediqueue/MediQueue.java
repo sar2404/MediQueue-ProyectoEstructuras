@@ -11,18 +11,19 @@ import servicios.ServicioBusquedaPacientes;
 import servicios.ServicioConfiguracion;
 import servicios.ServicioRegistro;
 import servicios.ServicioSalasConsultorios;
+import servicios.ServicioGestionSedes;
 
 import java.util.Scanner;
 
 /**
  * Punto de entrada de MediQueue.
  *
- * Coordina todos los modulos del proyecto mediante un menu anidado:
- *   1.0 Configuracion de la sede y login    -> ServicioConfiguracion
- *   1.1 Registro de pacientes (colas)        -> ServicioRegistro
- *   1.2 Atencion de pacientes (colas y pilas) -> ServicioAtencion
- *   1.3 Salas y consultorios (lista de colas) -> ServicioSalasConsultorios
- *   1.4 Historial y busquedas (arbol ABB)     -> ServicioBusquedaPacientes
+ * Coordina todos los modulos del proyecto mediante un menu anidado: 1.0
+ * Configuracion de la sede y login -> ServicioConfiguracion 1.1 Registro de
+ * pacientes (colas) -> ServicioRegistro 1.2 Atencion de pacientes (colas y
+ * pilas) -> ServicioAtencion 1.3 Salas y consultorios (lista de colas) ->
+ * ServicioSalasConsultorios 1.4 Historial y busquedas (arbol ABB) ->
+ * ServicioBusquedaPacientes
  *
  * El menu principal ofrece un modulo por opcion; cada modulo tiene su submenu.
  */
@@ -48,17 +49,17 @@ public class MediQueue {
 
         // Servicios que dependen de la sede ya configurada. Cada uno carga su
         // propia persistencia (tiquetes.json, salas.json, atendidos/historial.json).
-
         ServicioRegistro registro = new ServicioRegistro();
         ServicioSalasConsultorios salas = new ServicioSalasConsultorios(config.getSede(), registro);
         ServicioAtencion atencion = new ServicioAtencion();
 
         // El Modulo 1.4 se apoya en los tres anteriores: de ahi saca los tiquetes,
         // las consultas y las filas sobre los que hace sus busquedas.
-
         ServicioBusquedaPacientes busquedas = new ServicioBusquedaPacientes(registro, atencion, salas);
 
-        menuPrincipal(sc, config, registro, salas, atencion, busquedas);
+        ServicioGestionSedes gestionSedes = new ServicioGestionSedes();
+
+        menuPrincipal(sc, config, registro, salas, atencion, busquedas, gestionSedes);
     }
 
     private static boolean login(Scanner sc, ServicioConfiguracion config) {
@@ -79,16 +80,18 @@ public class MediQueue {
         return false;
     }
 
-
     // Menu principal: un modulo por opcion
-    /** Vamos a crear subfunciones de menu para poder modificarlas cómodamente a lo largo del proyecto, 
-     * de esta forma es más sencillo el proceso de debug y crecimiento del programa */
-
+    /**
+     * Vamos a crear subfunciones de menu para poder modificarlas cómodamente a
+     * lo largo del proyecto, de esta forma es más sencillo el proceso de debug
+     * y crecimiento del programa
+     */
     private static void menuPrincipal(Scanner sc, ServicioConfiguracion config,
-        ServicioRegistro registro,
-        ServicioSalasConsultorios salas,
-        ServicioAtencion atencion,
-        ServicioBusquedaPacientes busquedas) {
+            ServicioRegistro registro,
+            ServicioSalasConsultorios salas,
+            ServicioAtencion atencion,
+            ServicioBusquedaPacientes busquedas,
+            ServicioGestionSedes gestionSedes) {
 
         int opcion = -1;
 
@@ -100,28 +103,65 @@ public class MediQueue {
             System.out.println("3. Salas y consultorios (1.3)");
             System.out.println("4. Atencion de pacientes (1.2)");
             System.out.println("5. Historial y busquedas (1.4)");
+            System.out.println("6. Gestion de sedes (1.5)");
             System.out.println("0. salir");
             opcion = leerOpcion(sc);
 
             switch (opcion) {
 
-                case 1 -> menuConfiguracion(sc, config, salas);
-                case 2 -> menuRegistro(sc, registro);
-                case 3 -> menuSalas(sc, salas);
-                case 4 -> menuAtencion(sc, registro, atencion);
-                case 5 -> menuBusquedas(sc, busquedas);
-                case 0 -> System.out.println("hasta luego.");
-                default -> System.out.println("opcion invalida.");
+                case 1 ->
+                    menuConfiguracion(sc, config, salas);
+                case 2 ->
+                    menuRegistro(sc, registro);
+                case 3 ->
+                    menuSalas(sc, salas);
+                case 4 ->
+                    menuAtencion(sc, registro, atencion);
+                case 5 ->
+                    menuBusquedas(sc, busquedas);
+                case 6 ->
+                    menuGestionSedes(sc, gestionSedes);
+                case 0 ->
+                    System.out.println("hasta luego.");
+                default ->
+                    System.out.println("opcion invalida.");
 
             }
         }
     }
+    
+    private static void menuGestionSedes(Scanner sc, ServicioGestionSedes gestionSedes) {
 
+    int opcion = -1;
+
+    while (opcion != 0) {
+
+        System.out.println("\n-- gestion de sedes / grafos (1.5) --");
+        System.out.println("1. agregar sede");
+        System.out.println("2. agregar conexion entre sedes");
+        System.out.println("3. imprimir grafo");
+        System.out.println("4. calcular ruta mas corta");
+        System.out.println("5. ver sedes registradas");
+        System.out.println("0. volver");
+
+        opcion = leerOpcion(sc);
+
+        switch (opcion) {
+            case 1 -> gestionSedes.agregarSede(sc);
+            case 2 -> gestionSedes.agregarConexion(sc);
+            case 3 -> gestionSedes.imprimirGrafo();
+            case 4 -> gestionSedes.calcularRuta(sc);
+            case 5 -> gestionSedes.mostrarSedes();
+            case 0 -> {
+            }
+            default -> System.out.println("opcion invalida.");
+        }
+    }
+}
 
     // Submenu 1.0 - Configuracion 
-
     private static void menuConfiguracion(Scanner sc, ServicioConfiguracion config,
-        ServicioSalasConsultorios salas) {
+            ServicioSalasConsultorios salas) {
 
         int opcion = -1;
 
@@ -135,21 +175,23 @@ public class MediQueue {
 
             switch (opcion) {
 
-                case 1 -> mostrarConfiguracion(config);
+                case 1 ->
+                    mostrarConfiguracion(config);
 
                 case 2 -> {
                     config.configurar(sc);
                     salas.sincronizarConSede(config.getSede());
-    
+
                 }
-                case 0 -> { }
-                default -> System.out.println("opcion invalida.");
+                case 0 -> {
+                }
+                default ->
+                    System.out.println("opcion invalida.");
             }
         }
     }
-    
-    // Submenu 1.1 - Registro
 
+    // Submenu 1.1 - Registro
     private static void menuRegistro(Scanner sc, ServicioRegistro registro) {
         int opcion = -1;
         while (opcion != 0) {
@@ -162,18 +204,21 @@ public class MediQueue {
             opcion = leerOpcion(sc);
 
             switch (opcion) {
-                case 1 -> registro.registrarPaciente(sc);
-                case 2 -> registro.mostrarCola();
-                case 3 -> registro.mostrarTodos();
-                case 0 -> { }
-                default -> System.out.println("opcion invalida.");
+                case 1 ->
+                    registro.registrarPaciente(sc);
+                case 2 ->
+                    registro.mostrarCola();
+                case 3 ->
+                    registro.mostrarTodos();
+                case 0 -> {
+                }
+                default ->
+                    System.out.println("opcion invalida.");
             }
         }
     }
 
-
     // Submenu 1.3 - Salas y consultorios
-
     private static void menuSalas(Scanner sc, ServicioSalasConsultorios salas) {
 
         int opcion = -1;
@@ -189,20 +234,24 @@ public class MediQueue {
             opcion = leerOpcion(sc);
 
             switch (opcion) {
-                case 1 -> salas.asignarSiguientePaciente();
-                case 2 -> salas.configurarPersonal(sc);
-                case 3 -> salas.mostrarEstado();
-                case 4 -> salas.llamarSiguientePaciente(sc);
-                case 0 -> { }
-                default -> System.out.println("opcion invalida.");
+                case 1 ->
+                    salas.asignarSiguientePaciente();
+                case 2 ->
+                    salas.configurarPersonal(sc);
+                case 3 ->
+                    salas.mostrarEstado();
+                case 4 ->
+                    salas.llamarSiguientePaciente(sc);
+                case 0 -> {
+                }
+                default ->
+                    System.out.println("opcion invalida.");
 
             }
         }
     }
 
-
     // Submenu 1.2 - Atencion
-
     private static void menuAtencion(Scanner sc, ServicioRegistro registro, ServicioAtencion atencion) {
 
         int opcion = -1;
@@ -220,22 +269,30 @@ public class MediQueue {
             opcion = leerOpcion(sc);
 
             switch (opcion) {
-                case 1 -> iniciarAtencion(sc, registro, atencion);
-                case 2 -> finalizarAtencion(sc, registro, atencion);
-                case 3 -> cancelarAtencion(sc, registro, atencion);
-                case 4 -> reingresarPaciente(sc, registro, atencion);
-                case 5 -> atencion.mostrarTodasConsultas();
-                case 6 -> mostrarHistorial(sc, atencion);
-                case 7 -> exportarHistorial(sc, atencion);
-                case 0 -> { }
-                default -> System.out.println("opcion invalida.");
+                case 1 ->
+                    iniciarAtencion(sc, registro, atencion);
+                case 2 ->
+                    finalizarAtencion(sc, registro, atencion);
+                case 3 ->
+                    cancelarAtencion(sc, registro, atencion);
+                case 4 ->
+                    reingresarPaciente(sc, registro, atencion);
+                case 5 ->
+                    atencion.mostrarTodasConsultas();
+                case 6 ->
+                    mostrarHistorial(sc, atencion);
+                case 7 ->
+                    exportarHistorial(sc, atencion);
+                case 0 -> {
+                }
+                default ->
+                    System.out.println("opcion invalida.");
 
             }
         }
     }
 
     // Submenu 1.4 - Historial y busquedas (arbol ABB)
-
     private static void menuBusquedas(Scanner sc, ServicioBusquedaPacientes busquedas) {
 
         int opcion = -1;
@@ -278,20 +335,22 @@ public class MediQueue {
                     busquedas.buscarPorLugar(sc.nextLine().trim().toUpperCase());
                 }
 
-                case 6 -> busquedas.listarPacientes();
+                case 6 ->
+                    busquedas.listarPacientes();
 
-                case 7 -> busquedas.mostrarEstructuraArbol();
+                case 7 ->
+                    busquedas.mostrarEstructuraArbol();
 
-                case 0 -> { }
+                case 0 -> {
+                }
 
-                default -> System.out.println("opcion invalida.");
+                default ->
+                    System.out.println("opcion invalida.");
             }
         }
     }
 
     // Modulo 1.0: mostrar configuracion
-
-
     private static void mostrarConfiguracion(ServicioConfiguracion config) {
 
         System.out.println("sede: " + config.getSede().getNombre());
@@ -312,8 +371,6 @@ public class MediQueue {
     }
 
     // Modulo 1.2: se opera por id de tiquete / de consulta
-
-
     private static void iniciarAtencion(Scanner sc, ServicioRegistro registro, ServicioAtencion atencion) {
 
         registro.mostrarTodos();
@@ -399,7 +456,6 @@ public class MediQueue {
     }
 
     // utilidades de lectura
-
     private static int leerOpcion(Scanner sc) {
 
         System.out.print("opcion: ");
@@ -412,9 +468,9 @@ public class MediQueue {
     }
 
     private static int leerEntero(Scanner sc, String mensaje) {
-        
+
         while (true) {
-            
+
             System.out.print(mensaje);
             try {
                 return Integer.parseInt(sc.nextLine().trim());
